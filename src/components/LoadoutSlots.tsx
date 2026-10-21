@@ -102,7 +102,7 @@ export default function LoadoutSlots({ loadout, onSlotClick, onClear, onReorder,
       <p role="status" className="sr-only">{status}</p>
       {KINDS.map((kind) => (
         <div key={kind}>
-          <h3 className="mb-1.5 text-xs font-semibold uppercase tracking-wide text-zinc-500">{SLOT_TYPE[kind]}s</h3>
+          <h3 className="mb-1.5 text-xs font-semibold uppercase tracking-wide text-zinc-500 dark:text-zinc-400">{SLOT_TYPE[kind]}s</h3>
           <ol className={`grid grid-cols-4 ${compact ? 'gap-1.5' : 'gap-2'}`}>
             {loadout[kind].map((id, i) => {
               const skill = id ? getSkill(id) : undefined
@@ -112,7 +112,7 @@ export default function LoadoutSlots({ loadout, onSlotClick, onClear, onReorder,
                   key={i}
                   data-slot-kind={kind}
                   data-slot-index={i}
-                  className={`relative min-w-0 rounded-lg ${dropTarget?.kind === kind && dropTarget.index === i ? 'ring-2 ring-emerald-600 ring-offset-2' : ''}`}
+                  className={`relative min-w-0 rounded-lg ${dropTarget?.kind === kind && dropTarget.index === i ? 'ring-2 ring-emerald-600 ring-offset-2 dark:ring-offset-zinc-900' : ''}`}
                 >
                   <button
                     type="button"
@@ -151,8 +151,8 @@ export default function LoadoutSlots({ loadout, onSlotClick, onClear, onReorder,
                     aria-pressed={editable ? target?.kind === kind && target.index === i : undefined}
                     title={skill?.name}
                     className={`flex w-full flex-col items-center gap-1 rounded-lg border text-center transition ${reorderable && skill ? 'touch-none select-none cursor-grab active:cursor-grabbing [-webkit-touch-callout:none]' : ''} ${dragged?.kind === kind && dragged.index === i ? 'opacity-60' : ''} ${compact ? 'p-1' : 'p-2'} ${
-                      skill ? 'border-zinc-200 bg-white hover:border-[var(--path-color)] hover:shadow' : 'border-dashed border-zinc-300 bg-zinc-50 text-zinc-400'
-                    } ${editable && !skill ? 'hover:border-[var(--path-color)] hover:text-zinc-600' : ''} ${target?.kind === kind && target.index === i ? 'ring-2 ring-[var(--path-color)]' : ''}`}
+                      skill ? 'border-zinc-200 bg-white hover:border-[var(--path-color)] hover:shadow dark:border-zinc-700 dark:bg-zinc-900 dark:hover:border-[var(--path-color)]' : 'border-dashed border-zinc-300 bg-zinc-50 text-zinc-400 dark:border-zinc-600 dark:bg-zinc-800'
+                    } ${editable && !skill ? 'hover:border-[var(--path-color)] hover:text-zinc-600 dark:hover:border-[var(--path-color)] dark:hover:text-zinc-200' : ''} ${target?.kind === kind && target.index === i ? 'ring-2 ring-[var(--path-color)]' : ''}`}
                   >
                     {skill ? (
                       <SkillIcon skill={skill} size={compact ? 'size-10' : 'size-12'} />
@@ -167,7 +167,7 @@ export default function LoadoutSlots({ loadout, onSlotClick, onClear, onReorder,
                       onClick={() => onClear(kind, i)}
                       aria-label={`Remove ${skill.name}`}
                       title="Remove"
-                      className="absolute -right-1.5 -top-1.5 flex size-6 items-center justify-center rounded-full border border-zinc-300 bg-white text-sm leading-none text-zinc-600 shadow hover:bg-red-50 hover:text-red-600"
+                      className="absolute -right-1.5 -top-1.5 flex size-6 items-center justify-center rounded-full border border-zinc-300 bg-white text-sm leading-none text-zinc-600 shadow hover:bg-red-50 hover:text-red-600 dark:border-zinc-600 dark:bg-zinc-800 dark:text-zinc-300 dark:hover:bg-red-950 dark:hover:text-red-300"
                     >
                       ×
                     </button>
@@ -182,7 +182,7 @@ export default function LoadoutSlots({ loadout, onSlotClick, onClear, onReorder,
         <div
           aria-hidden="true"
           data-drag-preview
-          className={`pointer-events-none fixed left-0 top-0 z-50 flex select-none flex-col items-center gap-1 rounded-lg border border-zinc-300 bg-white text-center shadow-xl ${compact ? 'p-1' : 'p-2'}`}
+          className={`pointer-events-none fixed left-0 top-0 z-50 flex select-none flex-col items-center gap-1 rounded-lg border border-zinc-300 bg-white text-center shadow-xl dark:border-zinc-600 dark:bg-zinc-900 ${compact ? 'p-1' : 'p-2'}`}
           style={{
             width: dragged.width,
             height: dragged.height,

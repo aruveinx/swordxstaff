@@ -1,20 +1,100 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *));
+
 @theme {
   --font-sans: "Segoe UI", sans-serif;
 }
 
 /* Class path colors - edit here (plain :root so Tailwind doesn't tree-shake dynamically used vars) */
 :root {
+  color-scheme: light;
+  --page-max-width: 64rem;
   --color-path-knight: #f59e0b;
   --color-path-duelist: #dc2626;
   --color-path-sage: #14b8a6;
   --color-path-sorcerer: #38bdf8;
 }
 
+:root[data-theme=dark] {
+  color-scheme: dark;
+  background: var(--color-zinc-950);
+}
+
 body {
   margin: 0;
   min-width: 320px;
+}
+
+.class-background {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+  pointer-events: none;
+  user-select: none;
+}
+
+.class-background img {
+  position: absolute;
+  top: 0;
+  height: auto;
+  width: auto;
+  max-width: none;
+  object-fit: contain;
+  object-position: top;
+  opacity: 0.15;
+}
+
+.class-background .class-background-male {
+  right: calc(50% + var(--page-max-width) / 2 - 22rem);
+}
+
+.class-background .class-background-female {
+  left: calc(50% + var(--page-max-width) / 2 - 22rem);
+}
+
+.loadout-background {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+  pointer-events: none;
+  user-select: none;
+}
+
+.loadout-background img {
+  position: absolute;
+  top: -8rem;
+  right: -12rem;
+  width: auto;
+  height: 40rem;
+  max-width: none;
+  opacity: 0.1;
+  animation: loadout-artwork-fade 60s linear infinite;
+}
+
+.loadout-background .class-background-female {
+  animation-delay: -30s;
+  opacity: 0;
+}
+
+@keyframes loadout-artwork-fade {
+  0%, 48.333333% {
+    opacity: 0.15;
+  }
+  50%, 98.333333% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 0.15;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .loadout-background img {
+    animation: none;
+  }
 }
 
 .skill-level-slider {

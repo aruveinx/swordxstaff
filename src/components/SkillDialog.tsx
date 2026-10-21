@@ -30,7 +30,7 @@ export default function SkillDialog({ skill, onClose, onSelect }: Props) {
       ref={ref}
       onClose={onClose}
       onClick={(e) => e.target === ref.current && onClose()}
-      className="m-auto w-[min(92vw,34rem)] max-h-[85vh] rounded-xl border border-zinc-300 bg-white p-0 text-zinc-900 shadow-2xl backdrop:bg-black/50"
+      className="m-auto w-[min(92vw,34rem)] max-h-[85vh] rounded-xl border border-zinc-300 bg-white p-0 text-zinc-900 shadow-2xl backdrop:bg-black/50 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-100"
     >
       {skill && (
         <div className="p-5">
@@ -38,20 +38,20 @@ export default function SkillDialog({ skill, onClose, onSelect }: Props) {
             <SkillIcon skill={skill} size="size-16" />
             <div className="min-w-0 flex-1">
               <h2 className="text-xl font-semibold">{skill.name}</h2>
-              <p className="text-sm text-zinc-600">
+              <p className="text-sm text-zinc-600 dark:text-zinc-400">
                 {skill.class} · {skill.type}
               </p>
               {skill.tags && (
                 <div className="mt-2 flex flex-wrap gap-1">
                   {skill.tags.map((t) => (
-                    <span key={t} className="rounded bg-zinc-100 px-2 py-0.5 text-xs text-zinc-700">
+                    <span key={t} className="rounded bg-zinc-100 px-2 py-0.5 text-xs text-zinc-700 dark:bg-zinc-800 dark:text-zinc-300">
                       {t}
                     </span>
                   ))}
                 </div>
               )}
             </div>
-            <button onClick={onClose} aria-label="Close" className="rounded px-2 text-2xl leading-none text-zinc-500 hover:bg-zinc-100">
+            <button onClick={onClose} aria-label="Close" className="rounded px-2 text-2xl leading-none text-zinc-500 hover:bg-zinc-100 dark:text-zinc-400 dark:hover:bg-zinc-800">
               ×
             </button>
           </div>
@@ -65,13 +65,13 @@ export default function SkillDialog({ skill, onClose, onSelect }: Props) {
             <dl className="min-w-0 space-y-2 text-sm">
               {skill.cooldown != null && (
                 <div className="flex flex-wrap gap-x-2">
-                  <dt className="text-zinc-600">Cooldown</dt>
+                  <dt className="text-zinc-600 dark:text-zinc-400">Cooldown</dt>
                   <dd className="font-medium">{skill.cooldown}</dd>
                 </div>
               )}
               {skill.scaling?.map((s) => (
                 <div key={s.stat} className="flex flex-wrap gap-x-2">
-                  <dt className="text-zinc-600">
+                  <dt className="text-zinc-600 dark:text-zinc-400">
                     {s.stat === 'Healing Power' ? 'Heal power'
                       : s.stat === 'ATK' && !/\bATK\b/i.test(skill.description) ? 'DMG' : s.stat}
                   </dt>
@@ -92,9 +92,9 @@ export default function SkillDialog({ skill, onClose, onSelect }: Props) {
           {skill.keywords && skill.keywords.length > 0 && (
             <section className="mt-4 space-y-2">
               {skill.keywords.map((k) => (
-                <div key={k.name} className="rounded-lg bg-zinc-50 p-3 text-sm">
+                <div key={k.name} className="rounded-lg bg-zinc-50 p-3 text-sm dark:bg-zinc-800">
                   <div className="font-semibold">{k.name}</div>
-                  <div className="text-zinc-600"><ElementDescription text={k.description} /></div>
+                  <div className="text-zinc-600 dark:text-zinc-300"><ElementDescription text={k.description} /></div>
                 </div>
               ))}
             </section>
@@ -105,7 +105,7 @@ export default function SkillDialog({ skill, onClose, onSelect }: Props) {
               <h3 className="text-sm font-semibold">Summon skills</h3>
               <div className="mt-2 flex flex-wrap gap-2">
                 {summons.map((s) => (
-                  <button key={s.id} onClick={() => onSelect(s)} className="flex items-center gap-2 rounded-lg border border-zinc-200 px-2 py-1 text-sm hover:bg-zinc-50">
+                  <button key={s.id} onClick={() => onSelect(s)} className="flex items-center gap-2 rounded-lg border border-zinc-200 px-2 py-1 text-sm hover:bg-zinc-50 dark:border-zinc-700 dark:hover:bg-zinc-800">
                     <SkillIcon skill={s} size="size-7" />
                     {s.name}
                   </button>
@@ -122,8 +122,8 @@ export default function SkillDialog({ skill, onClose, onSelect }: Props) {
 export function SkillIcon({ skill, size }: { skill: Skill; size: string }) {
   const src = skillIcon(skill)
   return src ? (
-    <img src={src} alt="" className={`${size} shrink-0 rounded-lg bg-zinc-200 object-cover`} />
+    <img src={src} alt="" className={`${size} shrink-0 rounded-lg object-cover`} />
   ) : (
-    <div className={`${size} shrink-0 rounded-lg bg-zinc-200`} />
+    <div className={`${size} shrink-0 rounded-lg bg-zinc-200 dark:bg-zinc-800`} />
   )
 }

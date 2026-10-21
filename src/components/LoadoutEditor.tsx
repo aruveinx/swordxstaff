@@ -36,7 +36,7 @@ export default function LoadoutEditor({ initial, draft, target, notice, isNew, o
   }
 
   return (
-      <form onSubmit={submit} noValidate className="space-y-5 rounded-xl border border-zinc-200 bg-white p-5">
+      <form onSubmit={submit} noValidate className="space-y-5 rounded-xl border border-zinc-200 bg-white p-5 dark:border-zinc-700 dark:bg-zinc-900">
         <h2 className="text-lg font-semibold">{isNew ? 'New loadout' : 'Edit loadout'}</h2>
 
         <div>
@@ -55,10 +55,10 @@ export default function LoadoutEditor({ initial, draft, target, notice, isNew, o
             aria-invalid={nameError}
             aria-describedby={nameError ? 'loadout-name-error' : undefined}
             autoFocus
-            className={`mt-1 w-full max-w-sm rounded-lg border px-3 py-2 ${nameError ? 'border-red-500' : 'border-zinc-300'}`}
+            className={`mt-1 w-full max-w-sm rounded-lg border px-3 py-2 dark:bg-zinc-900 ${nameError ? 'border-red-500' : 'border-zinc-300 dark:border-zinc-600'}`}
           />
           {nameError && (
-            <p id="loadout-name-error" className="mt-1 text-sm text-red-600">
+            <p id="loadout-name-error" className="mt-1 text-sm text-red-600 dark:text-red-300">
               Please enter a name.
             </p>
           )}
@@ -68,9 +68,9 @@ export default function LoadoutEditor({ initial, draft, target, notice, isNew, o
           <p className="text-sm font-medium">
             Class: <span className="font-semibold">{classLabel(draft.pathId, draft.classId)}</span>
           </p>
-          <p className="mt-1 text-xs text-zinc-500">Use the class filters above to change this loadout's class. A class can equip its own skills and those of earlier classes in its path.</p>
+          <p className="mt-1 text-xs text-zinc-500 dark:text-zinc-400">Use the class filters above to change this loadout's class. A class can equip its own skills and those of earlier classes in its path.</p>
           {notice && (
-            <p role="status" className="mt-2 rounded-lg bg-amber-50 px-3 py-2 text-sm text-amber-800">
+            <p role="status" className="mt-2 rounded-lg bg-amber-50 px-3 py-2 text-sm text-amber-800 dark:bg-amber-950 dark:text-amber-200">
               {notice}
             </p>
           )}
@@ -90,7 +90,7 @@ export default function LoadoutEditor({ initial, draft, target, notice, isNew, o
           />
         </div>
 
-        <div role="status" className="rounded-lg bg-emerald-50 px-3 py-2 text-sm text-emerald-900">
+        <div role="status" className="rounded-lg bg-emerald-50 px-3 py-2 text-sm text-emerald-900 dark:bg-emerald-950 dark:text-emerald-200">
           {target ? (
             <>
               <p>Choose {SLOT_TYPE[target.kind]} {target.index + 1}: click a skill below to equip it. Already-equipped skills and other skill types are unavailable.</p>
@@ -107,7 +107,7 @@ export default function LoadoutEditor({ initial, draft, target, notice, isNew, o
           <button type="submit" className="rounded-lg bg-emerald-700 px-4 py-2 text-sm font-medium text-white hover:bg-emerald-800">
             Save loadout
           </button>
-          <button type="button" onClick={cancel} className="rounded-lg border border-zinc-300 px-4 py-2 text-sm font-medium hover:bg-zinc-50">
+          <button type="button" onClick={cancel} className="rounded-lg border border-zinc-300 px-4 py-2 text-sm font-medium hover:bg-zinc-50 dark:border-zinc-600 dark:hover:bg-zinc-800">
             Cancel
           </button>
         </div>

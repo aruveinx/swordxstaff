@@ -24,7 +24,7 @@ export default function ClassNav({ pathId, classId, onSelect, label = 'Class nav
                 onClick={() => onSelect(path, cls.id)}
                 aria-pressed={active}
                 style={{ borderColor: colorOf(path.id), backgroundColor: active ? colorOf(path.id) : undefined }}
-                className={`shrink-0 whitespace-nowrap rounded-full border-2 px-3 py-1.5 text-sm font-medium ${active ? 'text-white' : 'bg-white'}`}
+                className={`shrink-0 whitespace-nowrap rounded-full border-2 px-3 py-1.5 text-sm font-medium ${active ? 'text-white' : 'bg-white dark:bg-zinc-900'}`}
               >
                 {cls.label}
               </button>

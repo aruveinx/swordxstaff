@@ -34,19 +34,19 @@ export default function SkillLevelSlider({ level, maxLevel, onChange }: Props) {
   }).join(', ')
 
   return (
-    <div className="rounded-lg border border-zinc-200 bg-zinc-50 p-3">
+    <div className="rounded-lg border border-zinc-200 bg-zinc-50 p-3 dark:border-zinc-700 dark:bg-zinc-800">
       <div className="flex items-center justify-between gap-2 text-sm">
         <label htmlFor={id} className="font-medium">Skill level</label>
-        <span className="tabular-nums text-zinc-500">Level {level} / {maxLevel}</span>
+        <span className="tabular-nums text-zinc-500 dark:text-zinc-400">Level {level} / {maxLevel}</span>
       </div>
-      <div className="mt-2" style={{ color: current.color }} aria-live="polite">
+      <div className="mt-2 dark:brightness-150" style={{ color: current.color }} aria-live="polite">
         <div className="text-lg font-semibold">{current.name}</div>
         <div aria-label={`${stars} of ${totalStars} stars`} className="flex flex-wrap items-center gap-x-2">
           <span aria-hidden="true" className="text-lg tracking-wide">
             <span
               className="bg-clip-text text-transparent"
               style={{ backgroundImage: `linear-gradient(to right, ${current.accents.join(', ')})` }}
-            >{'★'.repeat(stars)}</span><span className="text-zinc-300">{'☆'.repeat(totalStars - stars)}</span>
+            >{'★'.repeat(stars)}</span><span className="text-zinc-300 dark:text-zinc-500">{'☆'.repeat(totalStars - stars)}</span>
           </span>
           <span className="text-xs font-medium">{stars} / {totalStars} stars</span>
         </div>
@@ -73,8 +73,8 @@ export default function SkillLevelSlider({ level, maxLevel, onChange }: Props) {
             onClick={() => onChange(rank.start)}
             aria-label={`${rank.name}, levels ${rank.start} to ${rank.end}`}
             aria-pressed={rank.name === current.name}
-            className={`relative min-w-0 rounded-md px-1 pb-2 pt-3 text-center text-xs outline-offset-2 hover:bg-zinc-100 ${
-              rank.name === current.name ? 'bg-white font-semibold ring-1 ring-zinc-300' : 'text-zinc-600'
+            className={`relative min-w-0 rounded-md px-1 pb-2 pt-3 text-center text-xs outline-offset-2 hover:bg-zinc-100 dark:hover:bg-zinc-700 ${
+              rank.name === current.name ? 'bg-white font-semibold ring-1 ring-zinc-300 dark:bg-zinc-900 dark:ring-zinc-600' : 'text-zinc-600 dark:text-zinc-300'
             }`}
           >
             <span
@@ -83,11 +83,11 @@ export default function SkillLevelSlider({ level, maxLevel, onChange }: Props) {
               style={{ background: `linear-gradient(to right, ${rank.accents.join(', ')})` }}
             />
             <span className="block">{rank.name}</span>
-            <span className="mt-0.5 block tabular-nums text-zinc-500">{rank.start}–{rank.end}</span>
+            <span className="mt-0.5 block tabular-nums text-zinc-500 dark:text-zinc-400">{rank.start}–{rank.end}</span>
           </button>
         ))}
       </div>
-      <p className="mt-2 text-xs text-zinc-500">Select a rank or drag to choose a star.</p>
+      <p className="mt-2 text-xs text-zinc-500 dark:text-zinc-400">Select a rank or drag to choose a star.</p>
     </div>
   )
 }

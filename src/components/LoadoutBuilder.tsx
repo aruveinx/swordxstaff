@@ -3,7 +3,7 @@ import LoadoutCard from './LoadoutCard'
 import LoadoutEditor from './LoadoutEditor'
 import SkillDialog from './SkillDialog'
 import SkillDatabase from './SkillDatabase'
-import { PATHS, type PathDef } from '../data/classes'
+import type { PathDef } from '../data/classes'
 import { changeClass, classLabel, createLoadout, findPath, isCompatible, shareHash, type Loadout, type SlotTarget } from '../data/loadouts'
 import { getSkill, type Skill } from '../data/skills'
 import type { useLoadouts } from '../hooks/useLoadouts'
@@ -13,12 +13,18 @@ export const shareUrl = (loadout: Loadout) => `${window.location.href.split('#')
 
 type Store = ReturnType<typeof useLoadouts>
 
-const buttonClass = 'rounded-lg border border-zinc-300 px-3 py-1.5 text-sm font-medium hover:bg-zinc-50'
+const buttonClass = 'rounded-lg border border-zinc-300 px-3 py-1.5 text-sm font-medium hover:bg-zinc-50 dark:border-zinc-600 dark:hover:bg-zinc-800'
 
-export default function LoadoutBuilder({ store, highlightId }: { store: Store; highlightId?: string | null }) {
+interface Props {
+  store: Store
+  filter: { path: PathDef; classId: string }
+  onFilterChange: (filter: Props['filter']) => void
+  highlightId?: string | null
+}
+
+export default function LoadoutBuilder({ store, filter, onFilterChange, highlightId }: Props) {
   const { loadouts, save, remove, error } = store
   const [editing, setEditing] = useState<{ loadout: Loadout; draft: Loadout; isNew: boolean } | null>(null)
-  const [filter, setFilter] = useState({ path: PATHS[0], classId: PATHS[0].classes[0].id })
   const [target, setTarget] = useState<SlotTarget | null>(null)
   const [notice, setNotice] = useState<string | null>(null)
   const [skill, setSkill] = useState<Skill | null>(null)
@@ -58,14 +64,14 @@ export default function LoadoutBuilder({ store, highlightId }: { store: Store; h
 
   const startEditing = (loadout: Loadout, isNew: boolean) => {
     const path = findPath(loadout.pathId)
-    if (path) setFilter({ path, classId: loadout.classId })
+    if (path) onFilterChange({ path, classId: loadout.classId })
     setEditing({ loadout, draft: loadout, isNew })
     setTarget(null)
     setNotice(null)
   }
 
   const selectClass = (path: PathDef, classId: string) => {
-    setFilter({ path, classId })
+    onFilterChange({ path, classId })
     if (!editing) return
     const { loadout, removed } = changeClass(editing.draft, path.id, classId, getSkill)
     setEditing({ ...editing, draft: loadout })
@@ -107,11 +113,8 @@ export default function LoadoutBuilder({ store, highlightId }: { store: Store; h
           </button>
         )}
       </div>
-      <p className="mt-2 text-sm text-zinc-600">
-        Each loadout has 4 Technique slots and 4 Charm slots. Loadouts are saved in this browser; use Copy link to share one.
-      </p>
       {error && (
-        <p role="alert" className="mt-3 rounded-lg bg-red-50 px-3 py-2 text-sm text-red-700">
+        <p role="alert" className="mt-3 rounded-lg bg-red-50 px-3 py-2 text-sm text-red-700 dark:bg-red-950 dark:text-red-300">
           {error}
         </p>
       )}
@@ -142,21 +145,21 @@ export default function LoadoutBuilder({ store, highlightId }: { store: Store; h
             }}
           />
         ) : loadouts.length === 0 ? (
-          <div className="rounded-xl border border-dashed border-zinc-300 bg-white p-8 text-center text-zinc-600">
+          <div className="rounded-xl border border-dashed border-zinc-300 bg-white p-8 text-center text-zinc-600 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-400">
             No loadouts yet. Create one to get started.
           </div>
         ) : (
           <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {loadouts.map((l) => (
-              <li key={l.id} id={`loadout-${l.id}`} className={l.id === highlightId ? 'rounded-xl ring-2 ring-emerald-600 ring-offset-2' : undefined}>
-                <LoadoutCard loadout={l} onOpenSkill={setSkill}>
+              <li key={l.id} id={`loadout-${l.id}`} className={l.id === highlightId ? 'rounded-xl ring-2 ring-emerald-600 ring-offset-2 dark:ring-offset-zinc-950' : undefined}>
+                <LoadoutCard loadout={l} onOpenSkill={setSkill} showArtwork>
                   <button type="button" onClick={() => startEditing(l, false)} className={buttonClass}>
                     Edit
                   </button>
                   <button type="button" onClick={() => copyLink(l)} className={buttonClass}>
                     {copied === l.id ? 'Copied!' : 'Copy link'}
                   </button>
-                  <button type="button" onClick={() => del(l)} className={`${buttonClass} text-red-700 hover:bg-red-50`}>
+                  <button type="button" onClick={() => del(l)} className={`${buttonClass} text-red-700 hover:bg-red-50 dark:text-red-300 dark:hover:bg-red-950`}>
                     Delete
                   </button>
                 </LoadoutCard>

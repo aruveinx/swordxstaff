@@ -1,12 +1,12 @@
 import type { Keyword } from '../data/skills'
 
 const ELEMENT_COLORS = new Map([
-  ['light', 'text-yellow-600'],
-  ['dark', 'text-purple-900'],
-  ['wind', 'text-[#169b78]'],
-  ['water', 'text-[#4778bb]'],
-  ['fire', 'text-orange-600'],
-  ['physical', 'text-[#8a7160]'],
+  ['light', 'text-yellow-600 dark:text-yellow-300'],
+  ['dark', 'text-purple-900 dark:text-purple-300'],
+  ['wind', 'text-[#169b78] dark:text-emerald-400'],
+  ['water', 'text-[#4778bb] dark:text-blue-400'],
+  ['fire', 'text-orange-600 dark:text-orange-400'],
+  ['physical', 'text-[#8a7160] dark:text-stone-400'],
 ])
 
 const ELEMENT_NAMES = [...ELEMENT_COLORS.keys()]

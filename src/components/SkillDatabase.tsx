@@ -35,7 +35,7 @@ function SkillGrid({ skills, onOpen, selection }: GridProps & { skills: Skill[] 
             disabled={disabled}
             aria-current={current || undefined}
             title={slot >= 0 && !current ? `${s.name} (in slot ${slot + 1})` : s.name}
-            className={`flex flex-col items-center gap-1 rounded-lg border bg-white p-2 text-center transition enabled:hover:border-[var(--path-color)] enabled:hover:shadow disabled:cursor-not-allowed disabled:opacity-40 ${current ? 'border-[var(--path-color)] ring-2 ring-[var(--path-color)]' : 'border-zinc-200'}`}
+            className={`flex flex-col items-center gap-1 rounded-lg border bg-white p-2 text-center transition enabled:hover:border-[var(--path-color)] enabled:hover:shadow disabled:cursor-not-allowed disabled:opacity-40 dark:bg-zinc-900 ${current ? 'border-[var(--path-color)] ring-2 ring-[var(--path-color)]' : 'border-zinc-200 dark:border-zinc-700 dark:enabled:hover:border-[var(--path-color)]'}`}
           >
             <SkillIcon skill={s} size="size-12" />
             <span className="text-xs leading-tight">{s.name}</span>
@@ -49,7 +49,7 @@ function SkillGrid({ skills, onOpen, selection }: GridProps & { skills: Skill[] 
 function ClassSection({ cls, onOpen, selection }: GridProps & { cls: ClassDef }) {
   const icon = classIcon(cls.id)
   return (
-    <section className="rounded-xl border border-zinc-200 bg-zinc-50 p-4">
+    <section className="rounded-xl border border-zinc-200 bg-zinc-50 p-4 dark:border-zinc-700 dark:bg-zinc-900/50">
       <h2 className="mb-3 flex items-center gap-2 border-l-4 border-[var(--path-color)] pl-3 text-lg font-semibold">
         {icon && <img src={icon} alt="" className="size-8" />}
         {cls.label}
@@ -60,7 +60,7 @@ function ClassSection({ cls, onOpen, selection }: GridProps & { cls: ClassDef })
           if (!skills.length) return null
           return (
             <div key={type}>
-              <h3 className="mb-2 text-sm font-semibold uppercase tracking-wide text-zinc-500">
+              <h3 className="mb-2 text-sm font-semibold uppercase tracking-wide text-zinc-500 dark:text-zinc-400">
                 {type}s <span className="font-normal">({skills.length})</span>
               </h3>
               <SkillGrid skills={skills} onOpen={onOpen} selection={selection} />
@@ -89,9 +89,6 @@ export default function SkillDatabase({ path, classId, onClassSelect, onOpen, se
         <ClassNav pathId={path.id} classId={classId} onSelect={onClassSelect} />
       </div>
       <div className="mt-5">{children}</div>
-      <p className="mt-3 text-sm text-zinc-600">
-        Showing {classes[0].label} skills and inherited skills, from highest to lowest tier.
-      </p>
       <div className="mt-5 space-y-5">
         {classes.map((cls) => (
           <ClassSection key={cls.id} cls={cls} onOpen={onOpen} selection={selection} />

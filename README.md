@@ -3,7 +3,25 @@
 Browse skills, plan your build, and share loadouts with other Sword X Staff players.
 Works on desktop and touch screens.
 
+Use the theme toggle in the top-right header to switch between light and dark
+mode. It starts with your system preference and remembers your choice in this browser.
+
 **[Open the tool](https://aruveinx.github.io/swordxstaff/)**
+
+## Install and use offline
+
+Use your browser's **Install app** option, or **Add to Home Screen** in Safari
+on iOS, to launch Sword X Staff as a standalone app.
+After the first online visit finishes caching, the site and shared-loadout
+previews work offline. Saved loadouts remain stored in this browser.
+
+When an update is available, the app asks before reloading. Save any loadout
+edits first; cancel the prompt to keep working and reopen the app later to update.
+
+The production build generates the web manifest, service worker, and install
+icons from `src/assets/img/favicon.png`. PWA support requires HTTPS (or localhost)
+and is disabled in the development server. To check it locally, run
+`npm run build`, then `npm run preview` and open `/swordxstaff/`.
 
 ## Explore skills
 
@@ -15,6 +33,10 @@ Works on desktop and touch screens.
   not a simulation of in-game targeting.
 
 On smaller screens, swipe the class rows sideways to see more classes.
+
+On wider screens, subtle male and female class artwork flanks the main content.
+It follows the selected class path (or Warrior/Mage for base classes), including
+on shared loadouts, and is naturally clipped as the viewport narrows.
 
 ## Build a loadout
 
@@ -36,6 +58,10 @@ skills that the new class can't use.
 Select **Save loadout** to store a build in the browser on your current device.
 Clearing your browser's site data will remove your saved loadouts.
 Keep share links for builds you don't want to lose.
+
+Saved loadout cards show their own class artwork in the top-right corner,
+crossfading between male and female versions every 30 seconds. With reduced
+motion enabled, the artwork stays static.
 
 - Select **Copy link** on a saved loadout to share it or open it on another device.
 - Open a shared link to preview the build, then select **Save to my loadouts**
