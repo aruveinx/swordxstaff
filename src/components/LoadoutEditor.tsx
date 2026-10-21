@@ -1,6 +1,6 @@
 import { useState, type FormEvent } from 'react'
 import LoadoutSlots from './LoadoutSlots'
-import { NAME_MAX_LENGTH, SLOT_TYPE, classLabel, cleanName, type Loadout, type SlotKind, type SlotTarget } from '../data/loadouts'
+import { NAME_MAX_LENGTH, SLOT_TYPE, classLabel, cleanName, reorderSlots, type Loadout, type SlotKind, type SlotTarget } from '../data/loadouts'
 
 interface Props {
   initial: Loadout
@@ -83,6 +83,10 @@ export default function LoadoutEditor({ initial, draft, target, notice, isNew, o
             target={target}
             onSlotClick={(kind, index) => onTargetChange({ kind, index })}
             onClear={(kind, index) => setSlot(kind, index, null)}
+            onReorder={(kind, from, to) => {
+              onChange({ ...draft, [kind]: reorderSlots(draft[kind], from, to) })
+              onTargetChange(null)
+            }}
           />
         </div>
 
@@ -95,7 +99,7 @@ export default function LoadoutEditor({ initial, draft, target, notice, isNew, o
               </button>
             </>
           ) : (
-            <p>Click a slot to select a skill from the list below. Otherwise, clicking a skill opens its description.</p>
+            <p>Click a slot to select a skill from the list below. Drag equipped skills within their row to reorder. Otherwise, clicking a skill opens its description.</p>
           )}
         </div>
 

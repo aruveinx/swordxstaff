@@ -9,6 +9,7 @@ import {
   encodeShare,
   isCompatible,
   parseStored,
+  reorderSlots,
   sanitizeLoadout,
   serializeStored,
 } from '../src/data/loadouts.ts'
@@ -17,6 +18,32 @@ const skills = JSON.parse(readFileSync(new URL('../src/assets/data/skills.json',
 const byId = new Map(skills.map((s) => [String(s.id), s]))
 const lookup = (id) => byId.get(id)
 const pick = (cls, type, n = 1) => skills.filter((s) => s.class === cls && s.type === type).slice(0, n).map((s) => String(s.id))
+
+test('reordering moves skills in either direction without mutating the original slots', () => {
+  const slots = ['a', 'b', 'c', 'd']
+  assert.deepEqual(reorderSlots(slots, 0, 2), ['b', 'c', 'a', 'd'])
+  assert.deepEqual(reorderSlots(slots, 3, 1), ['a', 'd', 'b', 'c'])
+  assert.deepEqual(reorderSlots(slots, 1, 1), slots)
+  assert.deepEqual(slots, ['a', 'b', 'c', 'd'])
+})
+
+test('reordering preserves empty slots and rejects invalid indices', () => {
+  assert.deepEqual(reorderSlots(['a', null, 'b', null], 0, 3), [null, 'b', null, 'a'])
+  for (const [from, to] of [[-1, 0], [0, 4], [4, 0], [0, -1], [0.5, 1], [0, NaN]]) {
+    assert.throws(() => reorderSlots(['a', null, null, null], from, to), RangeError)
+  }
+})
+
+test('reordered skills retain their order in storage and share links', () => {
+  const [a, b, c] = pick('Warrior', 'Technique', 3)
+  const loadout = {
+    ...createLoadout('knight', 'Knight'),
+    name: 'Reordered',
+    techniques: reorderSlots([a, b, c, null], 0, 2),
+  }
+  assert.deepEqual(parseStored(serializeStored([loadout]), lookup)[0].techniques, [b, c, a, null])
+  assert.deepEqual(decodeShare(encodeShare(loadout), lookup).loadout.techniques, [b, c, a, null])
+})
 
 test('compatibility allows own and earlier-tier classes in the same path only', () => {
   const [warriorTech] = pick('Warrior', 'Technique')

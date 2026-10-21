@@ -53,6 +53,16 @@ export function isCompatible(skill: SkillRef | undefined, kind: SlotKind, pathId
 
 export const emptySlots = (): Slots => Array<string | null>(SLOT_COUNT).fill(null)
 
+export function reorderSlots(slots: Slots, from: number, to: number): Slots {
+  if (!Number.isInteger(from) || !Number.isInteger(to) || from < 0 || to < 0 || from >= slots.length || to >= slots.length) {
+    throw new RangeError('Slot indices must be within the loadout row.')
+  }
+  const reordered = [...slots]
+  const [skill] = reordered.splice(from, 1)
+  reordered.splice(to, 0, skill)
+  return reordered
+}
+
 /**
  * Normalizes slots to exactly SLOT_COUNT entries, emptying unknown, incompatible and duplicate skills.
  * Returns the cleaned slots and how many skills were removed.

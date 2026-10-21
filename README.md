@@ -107,6 +107,11 @@ are disabled. The active slot and its currently equipped skill are highlighted.
 Picking a skill, **Cancel selection**, or Escape exits selection mode. Outside
 selection mode, skill clicks open the description dialog as usual.
 
+While creating or editing a loadout, drag an equipped skill onto another slot
+in the same row to move it there, shifting the intervening slots. Techniques
+and Charms cannot be moved between rows.
+Reordering exits skill selection mode and is only saved with **Save loadout**.
+
 Loadouts are stored in the browser's `localStorage` under
 `swordxstaff.loadouts.v1` and stay in sync across open tabs. Stored data is
 validated when loaded; unknown or incompatible skills are dropped.
