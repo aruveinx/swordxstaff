@@ -22,8 +22,8 @@ export default function SkillLevelSlider({ level, maxLevel, onChange }: Props) {
     end: Math.min(rank.end, maxLevel),
   }))
   const current = ranks.find((rank) => level <= rank.end)!
-  const stars = level - current.start + 1
-  const totalStars = current.end - current.start + 1
+  const stars = level - current.start
+  const totalStars = current.end - current.start
   const valueText = `${current.name}, ${stars} of ${totalStars} stars, level ${level} of ${maxLevel}`
   const track = ranks.map((rank) => {
     const start = maxLevel === 1 ? 0 : Math.max(0, (rank.start - 1.5) / (maxLevel - 1) * 100)
