@@ -1,0 +1,63 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Segoe UI", sans-serif;
+}
+
+/* Class path colors - edit here (plain :root so Tailwind doesn't tree-shake dynamically used vars) */
+:root {
+  --color-path-knight: #f59e0b;
+  --color-path-duelist: #dc2626;
+  --color-path-sage: #14b8a6;
+  --color-path-sorcerer: #38bdf8;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+}
+
+.skill-level-slider {
+  appearance: none;
+  height: 0.5rem;
+  border-radius: 9999px;
+  cursor: pointer;
+}
+
+.skill-level-slider::-webkit-slider-thumb {
+  appearance: none;
+  width: 1.25rem;
+  height: 1.25rem;
+  border: 3px solid currentColor;
+  border-radius: 50%;
+  background: white;
+  box-shadow: 0 1px 3px #0003;
+}
+
+.skill-level-slider::-moz-range-thumb {
+  box-sizing: border-box;
+  width: 1.25rem;
+  height: 1.25rem;
+  border: 3px solid currentColor;
+  border-radius: 50%;
+  background: white;
+  box-shadow: 0 1px 3px #0003;
+}
+
+.skill-level-slider:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 5px;
+}
+
+.skill-area-grid {
+  display: grid;
+  gap: 1px;
+  width: 100%;
+}
+
+.skill-area-cell {
+  aspect-ratio: 1;
+  min-width: 0;
+  border: 0.5px solid #71717a;
+  border-radius: 1px;
+}
