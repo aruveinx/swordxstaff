@@ -1,4 +1,5 @@
 import { useRef, useState, type PointerEvent } from 'react'
+import { createPortal } from 'react-dom'
 import { SkillIcon } from './SkillDialog'
 import { SLOT_TYPE, type Loadout, type SlotKind, type SlotTarget } from '../data/loadouts'
 import { getSkill, type Skill } from '../data/skills'
@@ -12,6 +13,16 @@ interface PointerDrag {
   startX: number
   startY: number
   active: boolean
+  bounds: DOMRect
+  skill: Skill
+}
+
+interface DragPreview extends SlotTarget {
+  skill: Skill
+  x: number
+  y: number
+  width: number
+  height: number
 }
 
 interface Props {
@@ -26,7 +37,7 @@ interface Props {
 }
 
 export default function LoadoutSlots({ loadout, onSlotClick, onClear, onReorder, editable = false, compact = false, target }: Props) {
-  const [dragged, setDragged] = useState<SlotTarget | null>(null)
+  const [dragged, setDragged] = useState<DragPreview | null>(null)
   const [dropTarget, setDropTarget] = useState<SlotTarget | null>(null)
   const [status, setStatus] = useState('')
   const container = useRef<HTMLDivElement>(null)
@@ -60,9 +71,16 @@ export default function LoadoutSlots({ loadout, onSlotClick, onClear, onReorder,
     if (!drag.active) {
       if (Math.hypot(event.clientX - drag.startX, event.clientY - drag.startY) < DRAG_THRESHOLD) return
       drag.active = true
-      setDragged(drag.source)
     }
     event.preventDefault()
+    setDragged({
+      ...drag.source,
+      skill: drag.skill,
+      x: drag.bounds.left + event.clientX - drag.startX,
+      y: drag.bounds.top + event.clientY - drag.startY,
+      width: drag.bounds.width,
+      height: drag.bounds.height,
+    })
     const destination = slotAtPointer(event, drag.source.kind)
     setDropTarget(destination?.index === drag.source.index ? null : destination)
   }
@@ -109,6 +127,8 @@ export default function LoadoutSlots({ loadout, onSlotClick, onClear, onReorder,
                         startX: event.clientX,
                         startY: event.clientY,
                         active: false,
+                        bounds: event.currentTarget.getBoundingClientRect(),
+                        skill,
                       }
                       event.currentTarget.setPointerCapture(event.pointerId)
                     }}
@@ -158,6 +178,23 @@ export default function LoadoutSlots({ loadout, onSlotClick, onClear, onReorder,
           </ol>
         </div>
       ))}
+      {dragged && createPortal(
+        <div
+          aria-hidden="true"
+          data-drag-preview
+          className={`pointer-events-none fixed left-0 top-0 z-50 flex select-none flex-col items-center gap-1 rounded-lg border border-zinc-300 bg-white text-center shadow-xl ${compact ? 'p-1' : 'p-2'}`}
+          style={{
+            width: dragged.width,
+            height: dragged.height,
+            transform: `translate3d(${dragged.x}px, ${dragged.y}px, 0)`,
+            willChange: 'transform',
+          }}
+        >
+          <SkillIcon skill={dragged.skill} size={compact ? 'size-10' : 'size-12'} />
+          {!compact && <span className="w-full truncate text-xs leading-tight">{dragged.skill.name}</span>}
+        </div>,
+        document.body,
+      )}
     </div>
   )
 }
